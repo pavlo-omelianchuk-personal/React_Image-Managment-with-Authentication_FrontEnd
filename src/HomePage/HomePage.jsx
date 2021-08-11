@@ -84,7 +84,7 @@ function HomePage() {
             boxShadow: "rgba(0, 0, 0, 0.1) 0px 4px 12px",
           }}
         >
-          <span>Now you can download images:</span>
+          <span>Now you can upload images:</span>
           <br />
           <br />
           <input type="file" onChange={handleChange} />
@@ -98,7 +98,7 @@ function HomePage() {
         {images.items && (
           <>
             {images.items.map((url, key) => (
-              <p
+              <div
                 key={key}
                 style={{
                   boxShadow:
@@ -133,41 +133,10 @@ function HomePage() {
                     }}
                   />
                 </span>
-                <a href={url.path}> Link to the file</a>
-              </p>
+                <a href={url.path} target='_blank'> Link to the file</a>
+              </div>
             ))}
           </>
-        )}
-        {users.items && (
-          <div>
-            Manage all users:
-            <ul>
-              {users.items.map((user, index) => (
-                <li key={user.id}>
-                  {user.firstName + " " + user.lastName}
-                  {user.deleting ? (
-                    <em> - Deleting...</em>
-                  ) : user.deleteError ? (
-                    <span className="text-danger">
-                      {" "}
-                      - ERROR: {user.deleteError}
-                    </span>
-                  ) : (
-                    <span>
-                      {" "}
-                      -{" "}
-                      <a
-                        onClick={() => handleDeleteUser(user.id)}
-                        className="text-primary"
-                      >
-                        Delete
-                      </a>
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
         )}
       </div>
       <p>
