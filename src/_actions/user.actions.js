@@ -20,7 +20,7 @@ function login(username, password) {
     userService.login(username, password).then(
       (user) => {
         dispatch(success(user));
-        history.push("/");
+        history.push("/index.html");
       },
       (error) => {
         dispatch(failure(error.toString()));

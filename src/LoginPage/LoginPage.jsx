@@ -31,7 +31,7 @@ function LoginPage() {
     setSubmitted(true);
     if (username && password) {
       // get return url from location state or default to home page
-      const { from } = location.state || { from: { pathname: "/" } };
+      const { from } = location.state || { from: { pathname: "/index.html" } };
       dispatch(userActions.login(username, password, from));
     }
   }

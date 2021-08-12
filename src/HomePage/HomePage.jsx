@@ -138,6 +138,37 @@ function HomePage() {
             ))}
           </>
         )}
+        {users.items && (
+          <div>
+            Manage all users:
+            <ul>
+              {users.items.map((user, index) => (
+                <li key={user.id}>
+                  {user.firstName + " " + user.lastName}
+                  {user.deleting ? (
+                    <em> - Deleting...</em>
+                  ) : user.deleteError ? (
+                    <span className="text-danger">
+                      {" "}
+                      - ERROR: {user.deleteError}
+                    </span>
+                  ) : (
+                    <span>
+                      {" "}
+                      -{" "}
+                      <a
+                        onClick={() => handleDeleteUser(user.id)}
+                        className="text-primary"
+                      >
+                        Delete
+                      </a>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
       <p>
         <Link to="/login">Logout</Link>

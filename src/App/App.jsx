@@ -29,10 +29,10 @@ function App() {
           )}
           <Router history={history}>
             <Switch>
-              <PrivateRoute exact path="/" component={HomePage} />
+              <PrivateRoute exact path="/index.html" component={HomePage} />
               <Route path="/login" component={LoginPage} />
               <Route path="/register" component={RegisterPage} />
-              <Redirect from="*" to="/" />
+              <Redirect from="*" to="/index.html" />
             </Switch>
           </Router>
         </div>
