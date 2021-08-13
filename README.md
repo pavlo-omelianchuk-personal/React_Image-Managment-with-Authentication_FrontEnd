@@ -1,4 +1,4 @@
-# Coding Challenge (Frontend Priority)
+# Coding Challenge
 
 ## Candidate name:
 Pavlo Omelianchuk
@@ -14,4 +14,4 @@ Pavlo Omelianchuk
 Work Method:
 * Test Driven - test coverage and explain your reasons
 * Use React
-* Deploy to Heroku (or other)
+* Deploy to AWS
