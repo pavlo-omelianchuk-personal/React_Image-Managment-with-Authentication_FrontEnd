@@ -11,6 +11,7 @@ export const userService = {
   getById,
   update,
   delete: _delete,
+  deleteImg: _deleteImg,
 };
 
 function login(username, password) {
@@ -105,6 +106,17 @@ function _delete(id) {
   };
 
   return fetch(`${config.apiUrl}/users/${id}`, requestOptions).then(
+    handleResponse
+  );
+}
+
+function _deleteImg(id) {
+  const requestOptions = {
+    method: "DELETE",
+    headers: authHeader(),
+  };
+
+  return fetch(`${config.apiUrl}/images/${id}`, requestOptions).then(
     handleResponse
   );
 }

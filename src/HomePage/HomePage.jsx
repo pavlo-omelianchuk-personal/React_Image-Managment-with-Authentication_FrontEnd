@@ -23,6 +23,10 @@ function HomePage() {
     dispatch(userActions.delete(id));
   };
 
+  const handleDeleteImage = (id) => {
+    dispatch(userActions.deleteImg(id));
+  };
+
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -97,44 +101,66 @@ function HomePage() {
         </div>
         {images.items && (
           <>
-            {images.items.map((url, key) => (
-              <div
-                key={key}
-                style={{
-                  boxShadow:
-                    "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
-                  display: "flex",
-                  flexDirection: "column",
-                  width: "100%",
-                  padding: "10px",
-                  overflow: "hidden",
-                }}
-              >
-                <h6>File name:</h6>
-                <span
+            {images.items.map((image, key) => (
+              <>
+                <div
+                  key={key}
                   style={{
+                    boxShadow:
+                      "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
                     display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "center",
+                    flexDirection: "column",
+                    width: "100%",
                     padding: "10px",
-                    overflow: "auto",
+                    overflow: "hidden",
                   }}
                 >
-                  <span>{url.filename}</span>
-                  <img
-                    src={url.path}
-                    alt={url.filename}
+                  <h6>File name:</h6>
+                  <span
                     style={{
-                      border: "1px solid #ddd",
-                      borderRadius: "4px",
-                      padding: "5px",
-                      width: "150px",
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      padding: "10px",
+                      overflow: "auto",
                     }}
-                  />
-                </span>
-                <a href={url.path} target='_blank'> Link to the file</a>
-              </div>
+                  >
+                    <span>{image.filename}</span>
+                    <img
+                      src={image.path}
+                      alt={image.filename}
+                      style={{
+                        border: "1px solid #ddd",
+                        borderRadius: "4px",
+                        padding: "5px",
+                        width: "150px",
+                      }}
+                    />
+                  </span>
+                  <a href={image.path} target="_blank">
+                    {" "}
+                    Link to the file
+                  </a>
+                  {image.deleting ? (
+                    <em> - Deleting...</em>
+                  ) : image.deleteError ? (
+                    <span className="text-danger">
+                      {" "}
+                      - ERROR: {image.deleteError}
+                    </span>
+                  ) : (
+                    <span>
+                      <a
+                        onClick={() => handleDeleteImage(image.id)}
+                        className="text-primary"
+                      >
+                        Delete
+                      </a>
+                    </span>
+                  )}
+                </div>
+              </>
             ))}
           </>
         )}

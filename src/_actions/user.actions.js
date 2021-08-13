@@ -11,6 +11,7 @@ export const userActions = {
   getAll,
   getAllImgs,
   delete: _delete,
+  deleteImg: _deleteImg,
 };
 
 function login(username, password) {
@@ -97,13 +98,13 @@ function registerImg(imagesArray) {
   };
 
   function request(imagesArray) {
-    return { type: imageConstants.REGISTERIMG_REQUEST, imagesArray };
+    return { type: imageConstants.REGISTER_IMG_REQUEST, imagesArray };
   }
   function success(imagesArray) {
-    return { type: imageConstants.REGISTERIMG_SUCCESS, imagesArray };
+    return { type: imageConstants.REGISTER_IMG_SUCCESS, imagesArray };
   }
   function failure(error) {
-    return { type: imageConstants.REGISTERIMG_FAILURE, error };
+    return { type: imageConstants.REGISTER_IMG_FAILURE, error };
   }
 }
 
@@ -139,13 +140,13 @@ function getAllImgs() {
   };
 
   function request() {
-    return { type: imageConstants.GETALLIMG_REQUEST };
+    return { type: imageConstants.GETALL_IMG_REQUEST };
   }
   function success(images) {
-    return { type: imageConstants.GETALLIMG_SUCCESS, images };
+    return { type: imageConstants.GETALL_IMG_SUCCESS, images };
   }
   function failure(error) {
-    return { type: imageConstants.GETALLIMG_FAILURE, error };
+    return { type: imageConstants.GETALL_IMG_FAILURE, error };
   }
 }
 
@@ -168,5 +169,26 @@ function _delete(id) {
   }
   function failure(id, error) {
     return { type: userConstants.DELETE_FAILURE, id, error };
+  }
+}
+
+function _deleteImg(id) {
+  return (dispatch) => {
+    dispatch(request(id));
+
+    userService.deleteImg(id).then(
+      (image) => dispatch(success(id)),
+      (error) => dispatch(failure(id, error.toString()))
+    );
+  };
+
+  function request(id) {
+    return { type: imageConstants.DELETE_IMG_REQUEST, id };
+  }
+  function success(id) {
+    return { type: imageConstants.DELETE_IMG_SUCCESS, id };
+  }
+  function failure(id, error) {
+    return { type: imageConstants.DELETE_IMG_FAILURE, id, error };
   }
 }
