@@ -7,7 +7,6 @@
   },
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install",
     "build": "webpack -p",
     "start": "webpack-dev-server --open",
     "test": "react-scripts test"

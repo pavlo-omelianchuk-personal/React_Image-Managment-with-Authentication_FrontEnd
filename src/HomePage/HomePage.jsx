@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { storage } from "../_firebase";
+import { storage, storageRef } from "../_firebase";
 import { userActions } from "../_actions";
 
 function HomePage() {
@@ -23,7 +23,18 @@ function HomePage() {
     dispatch(userActions.delete(id));
   };
 
-  const handleDeleteImage = (id) => {
+  const handleDeleteImage = (imageName, id) => {
+    const deleteTask = storage.ref(`images/${imageName}`);
+    
+    deleteTask
+      .delete()
+      .then(() => {
+        console.log(" File deleted successfully");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
     dispatch(userActions.deleteImg(id));
   };
 
@@ -91,7 +102,11 @@ function HomePage() {
           <span>Now you can upload images:</span>
           <br />
           <br />
-          <input type="file" onChange={handleChange} />
+          <input
+            type="file"
+            accept="image/png, image/gif, image/jpeg"
+            onChange={handleChange}
+          />
           <br />
           <br />
           <progress value={progress} max="100" />
@@ -102,31 +117,31 @@ function HomePage() {
         {images.items && (
           <>
             {images.items.map((image, key) => (
-              <>
-                <div
-                  key={key}
+              <div
+                key={key}
+                style={{
+                  boxShadow:
+                    "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+                  display: "flex",
+                  flexDirection: "column",
+                  width: "100%",
+                  padding: "10px",
+                  overflow: "hidden",
+                }}
+              >
+                <h6>File name:</h6>
+                <span
                   style={{
-                    boxShadow:
-                      "rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
                     display: "flex",
-                    flexDirection: "column",
-                    width: "100%",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                     padding: "10px",
-                    overflow: "hidden",
+                    overflow: "auto",
                   }}
                 >
-                  <h6>File name:</h6>
-                  <span
-                    style={{
-                      display: "flex",
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      padding: "10px",
-                      overflow: "auto",
-                    }}
-                  >
-                    <span>{image.filename}</span>
+                  <span>{image.filename}</span>
+                  <a href={image.path} target="_blank" rel="noreferrer">
                     <img
                       src={image.path}
                       alt={image.filename}
@@ -137,30 +152,28 @@ function HomePage() {
                         width: "150px",
                       }}
                     />
-                  </span>
-                  <a href={image.path} target="_blank">
-                    {" "}
-                    Link to the file
                   </a>
-                  {image.deleting ? (
-                    <em> - Deleting...</em>
-                  ) : image.deleteError ? (
-                    <span className="text-danger">
-                      {" "}
-                      - ERROR: {image.deleteError}
-                    </span>
-                  ) : (
-                    <span>
-                      <a
-                        onClick={() => handleDeleteImage(image.id)}
-                        className="text-primary"
-                      >
-                        Delete
-                      </a>
-                    </span>
-                  )}
-                </div>
-              </>
+                </span>
+                {image.deleting ? (
+                  <em> - Deleting...</em>
+                ) : image.deleteError ? (
+                  <span className="text-danger">
+                    {" "}
+                    - ERROR: {image.deleteError}
+                  </span>
+                ) : (
+                  <span>
+                    <a
+                      onClick={() =>
+                        handleDeleteImage(image.filename, image.id)
+                      }
+                      className="text-primary"
+                    >
+                      Delete
+                    </a>
+                  </span>
+                )}
+              </div>
             ))}
           </>
         )}
