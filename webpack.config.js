@@ -22,9 +22,13 @@ module.exports = {
     historyApiFallback: true,
   },
   externals: {
+    // // global app config object for fake backend
+    // config: JSON.stringify({
+    //   apiUrl: "http://localhost:4000",
+    // }),
     // global app config object
     config: JSON.stringify({
-      apiUrl: "http://localhost:4000",
+      apiUrl: "/api",
     }),
   },
 };
